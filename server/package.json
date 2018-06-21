@@ -19,14 +19,23 @@
   "dependencies": {
     "@nestjs/common": "5.0.1",
     "@nestjs/core": "5.0.1",
+    "@nestjs/mongoose": "5.0.0",
+    "@nestjs/swagger": "2.0.2",
+    "automapper-ts": "1.9.0",
+    "config": "1.30.0",
+    "lodash": "4.17.10",
+    "mongoose": "5.1.6",
     "reflect-metadata": "0.1.12",
     "rxjs": "6.2.1",
     "typescript": "2.9.2"
   },
   "devDependencies": {
     "@nestjs/testing": "5.0.1",
+    "@types/config": "0.0.34",
     "@types/express": "4.16.0",
     "@types/jest": "23.1.1",
+    "@types/lodash": "4.14.110",
+    "@types/mongoose": "5.0.18",
     "@types/node": "10.3.4",
     "@types/supertest": "2.0.4",
     "jest": "23.1.0",
