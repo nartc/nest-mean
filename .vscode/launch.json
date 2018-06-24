@@ -12,7 +12,7 @@
       "runtimeArgs": ["run-script", "start:dev"],
       "port": 5000,
       "cwd": "${workspaceFolder}/server",
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     }
   ]
 }
