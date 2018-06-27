@@ -5,9 +5,9 @@
         "no-unused-expression": true
     },
     "rules": {
+        "no-string-literal": false,
         "no-console": false,
         "only-arrow-functions": false,
-        "no-string-literal": false,
         "eofline": false,
         "quotemark": [true, "single"],
         "indent": false,
