@@ -1,5 +1,5 @@
 import 'automapper-ts/dist/automapper';
-import { Document, Model, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { Typegoose, ModelType, InstanceType } from 'typegoose';
 
 export abstract class BaseService<T extends Typegoose> {
@@ -16,15 +16,10 @@ export abstract class BaseService<T extends Typegoose> {
 
     async map<K>(
         object: Partial<InstanceType<T>> | Partial<InstanceType<T>>[],
-        isArray: boolean = false,
-        sourceKey?: string,
-        destinationKey?: string,
+        sourceKey: string = this.modelName,
+        destinationKey: string = this.viewModelName,
     ): Promise<K> {
-        const _sourceKey = isArray ? `${sourceKey || this.modelName}[]` : sourceKey || this.modelName;
-        const _destinationKey = isArray
-            ? `${destinationKey || this.viewModelName}[]`
-            : destinationKey || this.viewModelName;
-        return this._mapper.map(_sourceKey, _destinationKey, object);
+        return this._mapper.map(sourceKey, destinationKey, object);
     }
 
     async findAll(filter = {}): Promise<InstanceType<T>[]> {

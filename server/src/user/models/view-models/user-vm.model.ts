@@ -8,6 +8,6 @@ export class UserVm extends BaseModelVm {
     @ApiModelPropertyOptional() firstName?: string;
     @ApiModelPropertyOptional() lastName?: string;
     @ApiModelPropertyOptional() fullName?: string;
-    @ApiModelPropertyOptional({ enum: EnumToArray(UserRole) })
+    @ApiModelPropertyOptional({ enum: UserRole })
     role?: UserRole;
 }

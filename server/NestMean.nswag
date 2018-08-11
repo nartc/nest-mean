@@ -1,0 +1,46 @@
+{
+    "swaggerGenerator": {
+        "fromSwagger": {
+            "url": "http://localhost:8080/api/docs/swagger.json",
+            "output": null
+        }
+    },
+    "codeGenerators": {
+        "swaggerToTypeScriptClient": {
+            "className": "{controller}Client",
+            "moduleName": "",
+            "namespace": "",
+            "typeScriptVersion": 2.7,
+            "template": "Angular",
+            "promiseType": "Promise",
+            "httpClass": "HttpClient",
+            "useSingletonProvider": true,
+            "injectionTokenType": "InjectionToken",
+            "rxJsVersion": 6.0,
+            "dateTimeType": "Date",
+            "nullValue": "Null",
+            "generateClientClasses": true,
+            "generateClientInterfaces": false,
+            "generateOptionalParameters": true,
+            "wrapDtoExceptions": false,
+            "wrapResponses": false,
+            "useTransformOptionsMethod": false,
+            "useTransformResultMethod": false,
+            "generateDtoTypes": true,
+            "operationGenerationMode": "MultipleClientsFromOperationId",
+            "markOptionalProperties": true,
+            "generateCloneMethod": false,
+            "typeStyle": "Class",
+            "generateDefaultValues": true,
+            "excludedTypeNames": [],
+            "handleReferences": false,
+            "generateConstructorInterface": true,
+            "convertConstructorInterfaceData": false,
+            "importRequiredTypes": true,
+            "useGetBaseUrlMethod": false,
+            "baseUrlTokenName": "API_BASE_URL",
+            "queryNullValue": "",
+            "output": "../client/src/app/app.api.ts"
+        }
+    }
+}

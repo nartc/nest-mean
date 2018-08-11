@@ -1,77 +1,82 @@
 {
-    "name": "server",
-    "version": "1.0.0",
-    "description": "Nest MEAN Server",
-    "author": "Nartc",
-    "license": "MIT",
-    "scripts": {
-        "format": "prettier --write \"**/*.ts\"",
-        "start": "ts-node -r tsconfig-paths/register src/main.ts",
-        "start:dev": "nodemon",
-        "prestart:prod": "rm -rf dist && tsc",
-        "start:prod": "node dist/main.js",
-        "start:hmr": "node dist/server",
-        "test": "jest",
-        "test:cov": "jest --coverage",
-        "test:e2e": "jest --config ./test/jest-e2e.json",
-        "webpack": "webpack --config webpack.config.js"
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Nest MEAN Server",
+  "author": "Nartc",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"**/*.ts\"",
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start:dev": "nodemon",
+    "prestart:prod": "rm -rf dist && tsc -p ./tsconfig.json",
+    "start:prod": "node dist/main.js",
+    "start:hmr": "node dist/server",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "webpack": "webpack --config webpack.config.js",
+    "postinstall": "tsc -p ./tsconfig.json"
+  },
+  "dependencies": {
+    "@nestjs/common": "5.0.1",
+    "@nestjs/core": "5.0.1",
+    "@nestjs/mongoose": "5.0.0",
+    "@nestjs/passport": "1.1.0",
+    "@nestjs/swagger": "2.2.0",
+    "automapper-ts": "1.9.0",
+    "bcryptjs": "2.4.3",
+    "config": "1.30.0",
+    "jsonwebtoken": "8.3.0",
+    "lodash": "4.17.10",
+    "mongoose": "5.1.6",
+    "passport": "0.4.0",
+    "passport-jwt": "4.0.0",
+    "reflect-metadata": "0.1.12",
+    "rxjs": "6.2.1",
+    "typegoose": "5.2.1",
+    "typescript": "2.9.2"
+  },
+  "resolutions": {
+    "@types/express": "4.16.0",
+    "@types/passport": "0.4.5"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "5.0.1",
+    "@types/bcryptjs": "2.4.1",
+    "@types/config": "0.0.34",
+    "@types/express": "4.16.0",
+    "@types/jest": "23.1.1",
+    "@types/jsonwebtoken": "7.2.7",
+    "@types/lodash": "4.14.110",
+    "@types/mongoose": "5.0.18",
+    "@types/node": "10.3.4",
+    "@types/passport": "0.4.5",
+    "@types/passport-jwt": "3.0.1",
+    "@types/supertest": "2.0.4",
+    "jest": "23.1.0",
+    "nodemon": "1.17.5",
+    "prettier": "1.13.5",
+    "supertest": "3.1.0",
+    "ts-jest": "22.4.6",
+    "ts-loader": "4.4.1",
+    "ts-node": "6.1.1",
+    "tsconfig-paths": "3.4.0",
+    "tslint": "5.10.0",
+    "webpack": "4.12.0",
+    "webpack-cli": "3.0.8",
+    "webpack-node-externals": "1.7.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
     },
-    "dependencies": {
-        "@nestjs/common": "5.0.1",
-        "@nestjs/core": "5.0.1",
-        "@nestjs/mongoose": "5.0.0",
-        "@nestjs/passport": "1.1.0",
-        "@nestjs/swagger": "2.2.0",
-        "automapper-ts": "1.9.0",
-        "bcryptjs": "2.4.3",
-        "config": "1.30.0",
-        "jsonwebtoken": "8.3.0",
-        "lodash": "4.17.10",
-        "mongoose": "5.1.6",
-        "passport": "0.4.0",
-        "passport-jwt": "4.0.0",
-        "reflect-metadata": "0.1.12",
-        "rxjs": "6.2.1",
-        "typegoose": "5.2.1",
-        "typescript": "2.9.2"
-    },
-    "devDependencies": {
-        "@nestjs/testing": "5.0.1",
-        "@types/bcryptjs": "2.4.1",
-        "@types/config": "0.0.34",
-        "@types/express": "4.16.0",
-        "@types/jest": "23.1.1",
-        "@types/jsonwebtoken": "7.2.7",
-        "@types/lodash": "4.14.110",
-        "@types/mongoose": "5.0.18",
-        "@types/node": "10.3.4",
-        "@types/passport": "0.4.5",
-        "@types/passport-jwt": "3.0.1",
-        "@types/supertest": "2.0.4",
-        "jest": "23.1.0",
-        "nodemon": "1.17.5",
-        "prettier": "1.13.5",
-        "supertest": "3.1.0",
-        "ts-jest": "22.4.6",
-        "ts-loader": "4.4.1",
-        "ts-node": "6.1.1",
-        "tsconfig-paths": "3.4.0",
-        "tslint": "5.10.0",
-        "webpack": "4.12.0",
-        "webpack-cli": "3.0.8",
-        "webpack-node-externals": "1.7.2"
-    },
-    "jest": {
-        "moduleFileExtensions": [
-            "js",
-            "json",
-            "ts"
-        ],
-        "rootDir": "src",
-        "testRegex": ".spec.ts$",
-        "transform": {
-            "^.+\\.(t|j)s$": "ts-jest"
-        },
-        "coverageDirectory": "../coverage"
-    }
+    "coverageDirectory": "../coverage"
+  }
 }

@@ -1,9 +1,12 @@
-import { BaseModel, schemaOptions } from '../../shared/base.model';
+import { InstanceType, ModelType, pre, prop, Typegoose } from 'typegoose';
+import { schemaOptions } from '../../shared/base.model';
 import { UserRole } from './user-role.enum';
-import { prop, ModelType } from 'typegoose';
 
-export const USER_MODEL = 'User';
-export class User extends BaseModel {
+@pre<User>('findOneAndUpdate', function(next) {
+    this._update.updatedAt = new Date(Date.now());
+    next();
+})
+export class User extends Typegoose {
     @prop({
         required: [true, 'Username is required'],
         unique: true,
@@ -21,8 +24,16 @@ export class User extends BaseModel {
 
     @prop() lastName?: string;
 
-    @prop({ enum: UserRole })
+    @prop({ enum: UserRole, default: UserRole.User })
     role?: UserRole;
+
+    @prop({ default: Date.now() })
+    createdAt?: Date;
+
+    @prop({ default: Date.now() })
+    updatedAt?: Date;
+
+    id?: string;
 
     @prop()
     get fullName(): string {
@@ -37,3 +48,5 @@ export class User extends BaseModel {
         return this.model.modelName;
     }
 }
+
+export const UserModel = new User().getModelForClass(User, { schemaOptions });
