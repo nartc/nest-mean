@@ -10,3 +10,5 @@ Repository will be separated into `server` and `client` directory for **NestJS**
 
 This repository houses the Project's backend written using **NestJS**
 
+
+P.S: Pull Requests, Contributions are most definitely welcomed :)
