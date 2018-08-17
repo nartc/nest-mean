@@ -1,7 +1,7 @@
-import { CanActivate, ExecutionContext, Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRole } from '../../user/models/user-role.enum';
 import { InstanceType } from 'typegoose';
+import { UserRole } from '../../user/models/user-role.enum';
 import { User } from '../../user/models/user.model';
 
 @Injectable()

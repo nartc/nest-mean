@@ -1,0 +1,83 @@
+<div nz-row>
+  <div nz-col nzSpan="16" nzOffset="4">
+    <nz-card class="mb-2" [nzHoverable]="true">
+      <form nz-form [nzLayout]="'inline'" [formGroup]="form" (ngSubmit)="onSubmit()"
+            class="d-flex justify-content-between align-items-center">
+        <nz-form-item class="d-flex align-items-center mb-2">
+          <nz-form-label [nzRequired]="true" [nzFor]="'content'">Content</nz-form-label>
+          <nz-form-control [nzHasFeedback]="true">
+            <input type="text" nz-input formControlName="content" id="content"
+                   placeholder="What do you want to get done?">
+            <nz-form-explain *ngIf="form.get('content').dirty && form.get('content').errors">Content is required
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="d-flex align-items-center mb-2">
+          <nz-form-label [nzFor]="'level'">Priority</nz-form-label>
+          <nz-form-control [nzHasFeedback]="true">
+            <nz-select formControlName="level" id="level" class="w-100">
+              <nz-option *ngFor="let option of availableLevels" [nzValue]="option" [nzLabel]="option"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="mb-2">
+          <nz-form-control>
+            <button nz-button nzType="primary"><i class="anticon anticon-plus"></i> Add</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+    <nz-table #todosTable [nzData]="todos" [nzHideOnSinglePage]="true">
+      <thead>
+      <tr>
+        <th nzWidth="60%">
+          Content
+        </th>
+        <th>Priority Level</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let todo of todosTable.data">
+        <td>
+          <div class="editable-cell">
+            <div class="editable-cell-text-wrapper">
+              <ng-container *ngIf="!editableCache[todo.id].content.edit">
+                {{todo.content}}
+                <i class="anticon anticon-edit editable-cell-icon" (click)="startEditContent(todo.id)"></i>
+              </ng-container>
+              <ng-container *ngIf="editableCache[todo.id].content.edit">
+                <input type="text" nz-input [(ngModel)]="editableCache[todo.id].content.data">
+                <i class="anticon anticon-check editable-cell-icon-check" (click)="finishEditContent(todo.id)"></i>
+              </ng-container>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="editable-cell">
+            <div class="editable-cell-text-wrapper">
+              <ng-container *ngIf="!editableCache[todo.id].level.edit">
+                {{todo.level}}
+                <i class="anticon anticon-edit editable-cell-icon" (click)="startEditLevel(todo.id)"></i>
+              </ng-container>
+              <ng-container *ngIf="editableCache[todo.id].level.edit">
+                <nz-select class="w-100" [(ngModel)]="editableCache[todo.id].level.data" nzAllowClear
+                           nzPlaceHolder="Choose">
+                  <nz-option *ngFor="let option of availableLevels" [nzLabel]="option" [nzValue]="option"></nz-option>
+                </nz-select>
+                <i class="anticon anticon-check editable-cell-icon-check" (click)="finishEditLevel(todo.id)"></i>
+              </ng-container>
+            </div>
+          </div>
+        </td>
+        <td>
+          <nz-switch [ngModel]="todo.isCompleted" nzCheckedChildren="Complete" nzUnCheckedChildren="Incomplete"
+                     (ngModelChange)="onStatusChanged($event)"></nz-switch>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>

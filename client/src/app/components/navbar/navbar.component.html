@@ -1,0 +1,19 @@
+<nz-header class="landing-header">
+  <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'">
+    <li nz-menu-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+      <a [routerLink]="['/']">Home</a>
+    </li>
+    <li nz-menu-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+      <a [routerLink]="['/register']">Register</a>
+    </li>
+    <li nz-menu-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+      <a [routerLink]="['/login']">Login</a>
+    </li>
+    <li nz-menu-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+      <a [routerLink]="['/todo']">Todo List</a>
+    </li>
+    <li nz-menu-item [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+      <a (click)="onLogoutClick()">Logout</a>
+    </li>
+  </ul>
+</nz-header>

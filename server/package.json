@@ -18,9 +18,9 @@
     "postinstall": "tsc -p ./tsconfig.json"
   },
   "dependencies": {
-    "@nestjs/common": "5.0.1",
-    "@nestjs/core": "5.0.1",
-    "@nestjs/mongoose": "5.0.0",
+    "@nestjs/common": "5.1.0",
+    "@nestjs/core": "5.1.0",
+    "@nestjs/mongoose": "5.1.0",
     "@nestjs/passport": "1.1.0",
     "@nestjs/swagger": "2.2.0",
     "automapper-ts": "1.9.0",

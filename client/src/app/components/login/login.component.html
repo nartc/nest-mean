@@ -1,0 +1,44 @@
+<div nz-row>
+  <div nz-col nzSpan="12" nzOffset="6">
+    <nz-card nzTitle="Login" nzHoverable="true">
+      <form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <nz-form-item>
+          <nz-form-control nzHasFeedback="true">
+            <nz-input-group nzPrefixIcon="anticon anticon-user">
+              <input type="text" nz-input formControlName="username" placeholder="Username*">
+            </nz-input-group>
+            <nz-form-explain *ngIf="form.get('username').dirty && form.get('username').errors">
+              <ng-container *ngIf="form.get('username').hasError('required')">
+                Username is required
+              </ng-container>
+              <ng-container *ngIf="form.get('username').hasError('minlength')">
+                Must be at least 6 characters
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control nzHasFeedback="true">
+            <nz-input-group nzPrefixIcon="anticon anticon-key">
+              <input type="password" nz-input formControlName="password" placeholder="Password*">
+            </nz-input-group>
+            <nz-form-explain *ngIf="form.get('password').dirty && form.get('password').errors">
+              <ng-container *ngIf="form.get('password').hasError('required')">
+                Password is required
+              </ng-container>
+              <ng-container *ngIf="form.get('password').hasError('minlength')">
+                Must be at least 6 characters
+              </ng-container>
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item class="d-flex align-items-center">
+          <button nz-button nzType="primary">Login</button>
+          <a class="ml-auto" [routerLink]="['/register']">Switch to Register</a>
+        </nz-form-item>
+      </form>
+    </nz-card>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+@import '../variables.scss';
+
+::ng-deep .ant-layout-header {
+  color: $text-color-light;
+
+  &.landing-header {
+    display: flex;
+    align-items: center;
+
+    & .ant-menu-dark .ant-menu-item {
+      &::after {
+        content: '';
+        display: block;
+        width: 0px;
+        height: 2px;
+        background: $text-color-light;
+        transition: width 0.3s;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+
+      &.ant-menu-item.active,
+      &.ant-menu-item-selected {
+        background: transparent;
+        &.active {
+          background: transparent;
+          color: $text-color-light !important;
+          &::after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: $text-color-light;
+          }
+        }
+      }
+    }
+  }
+}

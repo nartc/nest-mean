@@ -25,7 +25,7 @@ export class UserService extends BaseService<User> {
         this._mapper = _mapperService.mapper;
     }
 
-    async register(vm: RegisterVm): Promise<User> {
+    async register(vm: RegisterVm) {
         const { username, password, firstName, lastName } = vm;
 
         const newUser = new UserModel();

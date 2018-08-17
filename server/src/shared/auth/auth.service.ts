@@ -1,10 +1,10 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { sign, SignOptions } from 'jsonwebtoken';
-import { JwtPayload } from './jwt-payload.model';
-import { ConfigurationService } from '../configuration/configuration.service';
+import { User } from '../../user/models/user.model';
 import { UserService } from '../../user/user.service';
 import { Configuration } from '../configuration/configuration.enum';
-import { User } from '../../user/models/user.model';
+import { ConfigurationService } from '../configuration/configuration.service';
+import { JwtPayload } from './jwt-payload.model';
 
 @Injectable()
 export class AuthService {

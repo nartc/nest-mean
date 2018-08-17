@@ -1,13 +1,13 @@
-import { Controller, Body, Post, HttpStatus, HttpException } from '@nestjs/common';
-import { UserService } from './user.service';
-import { RegisterVm } from './models/view-models/register-vm.model';
-import { UserVm } from './models/view-models/user-vm.model';
-import { ApiResponse, ApiOperation, ApiUseTags } from '@nestjs/swagger';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utitlies/get-operation-id.helper';
-import { LoginVm } from './models/view-models/login-vm.model';
-import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { User } from './models/user.model';
+import { LoginResponseVm } from './models/view-models/login-response-vm.model';
+import { LoginVm } from './models/view-models/login-vm.model';
+import { RegisterVm } from './models/view-models/register-vm.model';
+import { UserVm } from './models/view-models/user-vm.model';
+import { UserService } from './user.service';
 
 @Controller('user')
 @ApiUseTags(User.modelName)

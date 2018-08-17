@@ -1,0 +1,5 @@
+@import '../variables.scss';
+::ng-deep .ant-layout-footer {
+  background-color: #011529;
+  color: $text-color-light;
+}

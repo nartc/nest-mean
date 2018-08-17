@@ -1,6 +1,6 @@
 import 'automapper-ts/dist/automapper';
 import { Types } from 'mongoose';
-import { Typegoose, ModelType, InstanceType } from 'typegoose';
+import { InstanceType, ModelType, Typegoose } from 'typegoose';
 
 export abstract class BaseService<T extends Typegoose> {
     protected _model: ModelType<T>;
