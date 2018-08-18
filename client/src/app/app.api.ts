@@ -23,7 +23,7 @@ export class Client {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:8080/api";
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:3000/api";
     }
 
     hello(): Observable<void> {
@@ -59,7 +59,11 @@ export class Client {
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status !== 200 && status !== 204) {
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
@@ -78,7 +82,7 @@ export class UserClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:8080/api";
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:3000/api";
     }
 
     register(registerVm: RegisterVm): Observable<UserVm> {
@@ -210,7 +214,7 @@ export class TodoClient {
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "http://localhost:8080/api";
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:3000/api";
     }
 
     create(todoParams: TodoParams): Observable<TodoVm> {
@@ -272,15 +276,12 @@ export class TodoClient {
         return _observableOf<TodoVm>(<any>null);
     }
 
-    getall(isCompleted?: boolean | null | undefined, level?: any[] | null | undefined): Observable<TodoVm[]> {
+    getall(isCompleted?: boolean | null | undefined, level?: Level[] | null | undefined): Observable<TodoVm[]> {
         let url_ = this.baseUrl + "/todos?";
         if (isCompleted !== undefined)
             url_ += "isCompleted=" + encodeURIComponent("" + isCompleted) + "&"; 
         if (level !== undefined)
-            level && level.forEach((item, index) => { 
-                for (let attr in item)
-                    url_ += "level[" + index + "]." + attr + "=" + encodeURIComponent("" + item[attr]) + "&";
-            });
+            level && level.forEach(item => { url_ += "level=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -819,6 +820,12 @@ export interface ITodoVm {
     content: string;
     level: TodoVmLevel;
     isCompleted: boolean;
+}
+
+export enum Level {
+    Low = "Low", 
+    Normal = "Normal", 
+    High = "High", 
 }
 
 export enum UserVmRole {

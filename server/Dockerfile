@@ -1,6 +1,5 @@
 FROM node:10-alpine as build
 
-RUN rm -rf dist
 COPY . /src
 WORKDIR /src
 

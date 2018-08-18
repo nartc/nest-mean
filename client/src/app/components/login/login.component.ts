@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { of, throwError } from '../../../../node_modules/rxjs';
+import { ApiException, LoginResponseVm, LoginVm, UserClient } from '../../app.api';
 
 @Component({
     selector: 'app-login',
@@ -9,7 +13,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
     form: FormGroup;
 
-    constructor(private _formBuilder: FormBuilder) {}
+    constructor(private _formBuilder: FormBuilder,
+                private _userClient: UserClient,
+                private _router: Router) {}
 
     ngOnInit() {
         this.initForm();
@@ -25,7 +31,18 @@ export class LoginComponent implements OnInit {
     onSubmit() {
         if (this.form.invalid) {
             this.displayValidationErrors();
+            return;
         }
+
+        const loginVm: LoginVm = new LoginVm(this.form.value);
+        this._userClient.login(loginVm)
+            .pipe(catchError((err: ApiException) => throwError(err)))
+            .subscribe((data: LoginResponseVm) => {
+                console.log(data);
+                this._router.navigate(['/todo']);
+            }, (err: ApiException) => {
+                console.log(err);
+            });
     }
 
     private displayValidationErrors() {

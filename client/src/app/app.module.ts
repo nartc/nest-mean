@@ -8,12 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { en_US, NgZorroAntdModule, NZ_I18N } from 'ng-zorro-antd';
 
 import { AppRoutingModule } from './app-routing.module';
+import { API_BASE_URL } from './app.api';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 
 registerLocaleData(en);
 
@@ -28,8 +29,15 @@ registerLocaleData(en);
         HttpClientModule,
         NgZorroAntdModule,
     ],
-    providers: [{ provide: NZ_I18N, useValue: en_US }],
+    providers: [
+        { provide: NZ_I18N, useValue: en_US },
+        { provide: API_BASE_URL, useFactory: baseUrl },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {
+}
+
+export function baseUrl(): string {
+    return window.location.origin + '/api';
 }

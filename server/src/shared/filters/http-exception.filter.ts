@@ -17,7 +17,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         res.status(error.getStatus()).json({
             statusCode: error.getStatus(),
             error: error.response.name || error.response.error || error.name,
-            message: error.response.message.message || error.response.message || error.message,
+            message: error.response.message || error.response || error.message,
             errors: error.response.errors || null,
             timestamp: new Date().toISOString(),
             path: req ? req.url : null,

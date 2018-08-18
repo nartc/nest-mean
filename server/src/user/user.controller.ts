@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utitlies/get-operation-id.helper';
 import { User } from './models/user.model';
@@ -15,8 +15,8 @@ export class UserController {
     constructor(private readonly _userService: UserService) {}
 
     @Post('register')
-    @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+    @ApiCreatedResponse({ type: UserVm })
+    @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(User.modelName, 'Register'))
     async register(@Body() vm: RegisterVm): Promise<UserVm> {
         const { username, password } = vm;
@@ -45,8 +45,8 @@ export class UserController {
     }
 
     @Post('login')
-    @ApiResponse({ status: HttpStatus.CREATED, type: LoginResponseVm })
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+    @ApiCreatedResponse({ type: LoginResponseVm })
+    @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(User.modelName, 'Login'))
     async login(@Body() vm: LoginVm): Promise<LoginResponseVm> {
         const fields = Object.keys(vm);
