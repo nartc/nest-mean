@@ -99,7 +99,7 @@ export class TodoController {
         if (!vm || !id) {
             throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
         }
- 
+
         const exist = await this._todoService.findById(id);
 
         if (!exist) {
