@@ -10,9 +10,7 @@ import {
     Post,
     Put,
     Query,
-    UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import {
     ApiBadRequestResponse,
     ApiBearerAuth,
@@ -24,12 +22,9 @@ import {
 } from '@nestjs/swagger';
 import { isArray, map } from 'lodash';
 import { ApiException } from '../shared/api-exception.model';
-import { Roles } from '../shared/decorators/roles.decorator';
-import { RolesGuard } from '../shared/guards/roles.guard';
 import { ToBooleanPipe } from '../shared/pipes/to-boolean.pipe';
 import { EnumToArray } from '../shared/utitlies/enum-to-array.helper';
 import { GetOperationId } from '../shared/utitlies/get-operation-id.helper';
-import { UserRole } from '../user/models/user-role.enum';
 import { TodoLevel } from './models/todo-level.enum';
 import { Todo } from './models/todo.model';
 import { TodoParams } from './models/view-models/todo-params.model';
@@ -43,8 +38,8 @@ export class TodoController {
     constructor(private readonly _todoService: TodoService) {}
 
     @Post()
-    @Roles(UserRole.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    // @Roles(UserRole.Admin)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
     @ApiCreatedResponse({ type: TodoVm })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(Todo.modelName, 'Create'))
@@ -58,8 +53,8 @@ export class TodoController {
     }
 
     @Get()
-    @Roles(UserRole.Admin, UserRole.User)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    // @Roles(UserRole.Admin, UserRole.User)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
     @ApiOkResponse({ type: TodoVm, isArray: true })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(Todo.modelName, 'GetAll'))
@@ -93,9 +88,9 @@ export class TodoController {
     }
 
     @Put()
-    @Roles(UserRole.Admin, UserRole.User)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    @ApiCreatedResponse({ type: TodoVm })
+    // @Roles(UserRole.Admin, UserRole.User)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @ApiOkResponse({ type: TodoVm })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(Todo.modelName, 'Update'))
     async update(@Body() vm: TodoVm): Promise<TodoVm> {
@@ -104,7 +99,7 @@ export class TodoController {
         if (!vm || !id) {
             throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
         }
-
+ 
         const exist = await this._todoService.findById(id);
 
         if (!exist) {
@@ -128,8 +123,8 @@ export class TodoController {
     }
 
     @Delete(':id')
-    @Roles(UserRole.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    // @Roles(UserRole.Admin)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
     @ApiOkResponse({ type: TodoVm })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(Todo.modelName, 'Delete'))

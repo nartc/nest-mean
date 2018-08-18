@@ -46,11 +46,11 @@
             <div class="editable-cell-text-wrapper">
               <ng-container *ngIf="!editableCache[todo.id].content.edit">
                 {{todo.content}}
-                <i class="anticon anticon-edit editable-cell-icon" (click)="startEditContent(todo.id)"></i>
+                <i class="anticon anticon-edit editable-cell-icon" (click)="startEdit(todo, 'content')"></i>
               </ng-container>
               <ng-container *ngIf="editableCache[todo.id].content.edit">
                 <input type="text" nz-input [(ngModel)]="editableCache[todo.id].content.data">
-                <i class="anticon anticon-check editable-cell-icon-check" (click)="finishEditContent(todo.id)"></i>
+                <i class="anticon anticon-check editable-cell-icon-check" (click)="finishEdit(todo, 'content')"></i>
               </ng-container>
             </div>
           </div>
@@ -60,21 +60,21 @@
             <div class="editable-cell-text-wrapper">
               <ng-container *ngIf="!editableCache[todo.id].level.edit">
                 {{todo.level}}
-                <i class="anticon anticon-edit editable-cell-icon" (click)="startEditLevel(todo.id)"></i>
+                <i class="anticon anticon-edit editable-cell-icon" (click)="startEdit(todo, 'level')"></i>
               </ng-container>
               <ng-container *ngIf="editableCache[todo.id].level.edit">
                 <nz-select class="w-100" [(ngModel)]="editableCache[todo.id].level.data" nzAllowClear
                            nzPlaceHolder="Choose">
                   <nz-option *ngFor="let option of availableLevels" [nzLabel]="option" [nzValue]="option"></nz-option>
                 </nz-select>
-                <i class="anticon anticon-check editable-cell-icon-check" (click)="finishEditLevel(todo.id)"></i>
+                <i class="anticon anticon-check editable-cell-icon-check" (click)="finishEdit(todo, 'level')"></i>
               </ng-container>
             </div>
           </div>
         </td>
         <td>
           <nz-switch [ngModel]="todo.isCompleted" nzCheckedChildren="Complete" nzUnCheckedChildren="Incomplete"
-                     (ngModelChange)="onStatusChanged($event)"></nz-switch>
+                     (ngModelChange)="onStatusChanged($event, todo)"></nz-switch>
         </td>
       </tr>
       </tbody>

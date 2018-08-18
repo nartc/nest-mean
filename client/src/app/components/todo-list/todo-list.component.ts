@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TodoClient, TodoParams, TodoVm } from '../../app.api';
 
 @Component({
     selector: 'app-todo-list',
@@ -9,40 +10,28 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class TodoListComponent implements OnInit {
 
     form: FormGroup;
-    todos = [];
+    todos: TodoVm[] = [];
     editableCache = {};
 
     availableLevels = [];
 
-    constructor(private _formBuilder: FormBuilder) { }
+    constructor(private _formBuilder: FormBuilder,
+                private _todoClient: TodoClient) { }
 
     ngOnInit() {
         this.initForm();
         this.getTodos();
         this.getAvailableLevels();
-        this.updateEditableCache();
     }
 
-    startEditContent(id: number) {
-        this.editableCache[id].content.edit = true;
-    }
-
-    finishEditContent(id: number) {
-        this.todos.find(todo => todo.id === id).content = this.editableCache[id].content.data;
-        this.editableCache[id].content.edit = false;
-    }
-
-    startEditLevel(id: number) {
-        this.editableCache[id].level.edit = true;
-    }
-
-    finishEditLevel(id: number) {
-        this.todos.find(todo => todo.id === id).level = this.editableCache[id].level.data;
-        this.editableCache[id].level.edit = false;
-    }
-
-    onStatusChanged(status: boolean) {
-
+    onStatusChanged(status: boolean, todo: TodoVm) {
+        todo.isCompleted = status;
+        this._todoClient.update(todo)
+            .subscribe((updatedTodo: TodoVm) => {
+                const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
+                this.todos.splice(index, 1, updatedTodo);
+                this.updateEditableCache();
+            });
     }
 
     onSubmit() {
@@ -51,36 +40,29 @@ export class TodoListComponent implements OnInit {
             return;
         }
 
-        const { content, level } = this.form.value;
-        this.todos = [
-            {
-                content,
-                level,
-                isCompleted: false,
-                id: this.todos.length + 1,
-            },
-            ...this.todos,
-        ];
-        this.updateEditableCache();
-        this.form.get('content').reset();
-        this.form.get('level').reset();
-        this.form.get('level').setValue('Normal');
+        const todoParams: TodoParams = new TodoParams(this.form.value);
+        this._todoClient.create(todoParams)
+            .subscribe((newTodo: TodoVm) => {
+                this.todos = [newTodo, ...this.todos];
+                this.updateEditableCache();
+                this.form.get('content').reset();
+                this.form.get('level').reset();
+                this.form.get('level').setValue('Normal');
+            });
     }
 
     private updateEditableCache() {
-        console.log(this.todos);
         this.todos.forEach(todo => {
             if (!this.editableCache[todo.id]) {
                 this.editableCache[todo.id] = {};
-                Object.keys(todo).forEach(key => {
-                    if (!this.editableCache[todo.id][key]) {
-                        this.editableCache[todo.id][key] = {
-                            data: todo[key],
-                            edit: false,
-                        };
-                    }
-                });
             }
+
+            Object.keys(todo).forEach(key => {
+                this.editableCache[todo.id][key] = {
+                    data: todo[key],
+                    edit: false,
+                };
+            });
         });
     }
 
@@ -89,26 +71,11 @@ export class TodoListComponent implements OnInit {
     }
 
     private getTodos() {
-        this.todos = [
-            {
-                content: 'First todo',
-                isCompleted: false,
-                level: 'Normal',
-                id: 1,
-            },
-            {
-                content: 'Second todo',
-                isCompleted: true,
-                level: 'High',
-                id: 2,
-            },
-            {
-                content: 'Third todo',
-                isCompleted: false,
-                level: 'Low',
-                id: 3,
-            },
-        ];
+        this._todoClient.getall()
+            .subscribe((todos: TodoVm[]) => {
+                this.todos = todos;
+                this.updateEditableCache();
+            });
     }
 
     private initForm() {
@@ -124,5 +91,19 @@ export class TodoListComponent implements OnInit {
             this.form.controls[key].markAsDirty();
             this.form.controls[key].updateValueAndValidity();
         });
+    }
+
+    finishEdit(todo: TodoVm, key: string) {
+        todo[key] = this.editableCache[todo.id][key].data;
+        this._todoClient.update(todo)
+            .subscribe((updated: TodoVm) => {
+                const index = this.todos.findIndex(t => t.id === updated.id);
+                this.todos.splice(index, 1, updated);
+                this.updateEditableCache();
+            });
+    }
+
+    startEdit(todo: TodoVm, key: string) {
+        this.editableCache[todo.id][key].edit = true;
     }
 }
