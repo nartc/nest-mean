@@ -23,8 +23,8 @@ import {
 import { isArray, map } from 'lodash';
 import { ApiException } from '../shared/api-exception.model';
 import { ToBooleanPipe } from '../shared/pipes/to-boolean.pipe';
-import { EnumToArray } from '../shared/utitlies/enum-to-array.helper';
-import { GetOperationId } from '../shared/utitlies/get-operation-id.helper';
+import { EnumToArray } from '../shared/utilities/enum-to-array.helper';
+import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
 import { TodoLevel } from './models/todo-level.enum';
 import { Todo } from './models/todo.model';
 import { TodoParams } from './models/view-models/todo-params.model';
