@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
     imports: [SharedModule, MongooseModule.forRoot(ConfigurationService.connectionString, {
         retryDelay: 500,
         retryAttempts: 3,
+        useNewUrlParser: true,
     }), UserModule, TodoModule],
     controllers: [AppController],
     providers: [AppService],
