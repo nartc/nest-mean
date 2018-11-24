@@ -9,10 +9,16 @@ import { TodoModule } from './todo/todo.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-    imports: [SharedModule, MongooseModule.forRoot(ConfigurationService.connectionString, {
-        retryDelay: 500,
-        retryAttempts: 3,
-        useNewUrlParser: true,
+    imports: [SharedModule, MongooseModule.forRootAsync({
+        imports: [SharedModule],
+        useFactory: async (_configService: ConfigurationService) => ({
+            uri: _configService.get(Configuration.MONGO_URI),
+            retryDelay: 500,
+            retryAttempts: 3,
+            useNewUrlParser: true,
+            useCreateIndex: true,
+        }),
+        inject: [ConfigurationService],
     }), UserModule, TodoModule],
     controllers: [AppController],
     providers: [AppService],

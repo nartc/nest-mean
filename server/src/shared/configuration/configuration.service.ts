@@ -4,7 +4,6 @@ import { Configuration } from './configuration.enum';
 
 @Injectable()
 export class ConfigurationService {
-    static connectionString: string = process.env[Configuration.MONGO_URI] || get(Configuration.MONGO_URI);
     private environmentHosting: string = process.env.NODE_ENV || 'development';
 
     get(name: string): string {
