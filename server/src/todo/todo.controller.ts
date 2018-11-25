@@ -23,7 +23,6 @@ import {
 import { isArray, map } from 'lodash';
 import { ApiException } from '../shared/api-exception.model';
 import { ToBooleanPipe } from '../shared/pipes/to-boolean.pipe';
-import { EnumToArray } from '../shared/utilities/enum-to-array.helper';
 import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
 import { TodoLevel } from './models/todo-level.enum';
 import { Todo } from './models/todo.model';
@@ -35,7 +34,8 @@ import { TodoService } from './todo.service';
 @ApiUseTags(Todo.modelName)
 @ApiBearerAuth()
 export class TodoController {
-    constructor(private readonly _todoService: TodoService) {}
+    constructor(private readonly _todoService: TodoService) {
+    }
 
     @Post()
     // @Roles(UserRole.Admin)
@@ -58,7 +58,7 @@ export class TodoController {
     @ApiOkResponse({ type: TodoVm, isArray: true })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(Todo.modelName, 'GetAll'))
-    @ApiImplicitQuery({ name: 'level', enum: EnumToArray(TodoLevel), required: false, isArray: true })
+    @ApiImplicitQuery({ name: 'level', enum: TodoLevel, required: false, isArray: true })
     @ApiImplicitQuery({ name: 'isCompleted', required: false })
     async get(
         @Query('level') level?: TodoLevel,
@@ -99,7 +99,7 @@ export class TodoController {
         if (!vm || !id) {
             throw new HttpException('Missing parameters', HttpStatus.BAD_REQUEST);
         }
- 
+
         const exist = await this._todoService.findById(id);
 
         if (!exist) {
