@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ModelType } from 'typegoose';
 import { BaseService } from '../shared/base.service';
 import { MapperService } from '../shared/mapper/mapper.service';
-import { Todo, TodoModel } from './models/todo.model';
+import { Todo } from './models/todo.model';
 import { TodoParams } from './models/view-models/todo-params.model';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class TodoService extends BaseService<Todo> {
     async createTodo(params: TodoParams): Promise<Todo> {
         const { content, level } = params;
 
-        const newTodo = new TodoModel();
+        const newTodo = Todo.createModel();
 
         newTodo.content = content;
 

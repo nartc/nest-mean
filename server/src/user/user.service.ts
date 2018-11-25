@@ -6,7 +6,7 @@ import { AuthService } from '../shared/auth/auth.service';
 import { JwtPayload } from '../shared/auth/jwt-payload.model';
 import { BaseService } from '../shared/base.service';
 import { MapperService } from '../shared/mapper/mapper.service';
-import { User, UserModel } from './models/user.model';
+import { User } from './models/user.model';
 import { LoginResponseVm } from './models/view-models/login-response-vm.model';
 import { LoginVm } from './models/view-models/login-vm.model';
 import { RegisterVm } from './models/view-models/register-vm.model';
@@ -28,7 +28,7 @@ export class UserService extends BaseService<User> {
     async register(vm: RegisterVm) {
         const { username, password, firstName, lastName } = vm;
 
-        const newUser = new UserModel();
+        const newUser = User.createModel();
         newUser.username = username.trim().toLowerCase();
         newUser.firstName = firstName;
         newUser.lastName = lastName;

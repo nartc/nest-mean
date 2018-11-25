@@ -1,7 +1,7 @@
 {
     "swaggerGenerator": {
         "fromSwagger": {
-            "url": "http://localhost:3000/api/docs/swagger.json",
+            "url": "http://localhost:3000/api/docs-json",
             "output": null
         }
     },
