@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpService, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ModelType } from 'typegoose';
 import { BaseService } from '../shared/base.service';
@@ -9,6 +9,7 @@ import { TodoParams } from './models/view-models/todo-params.model';
 @Injectable()
 export class TodoService extends BaseService<Todo> {
     constructor(
+        private readonly httpService: HttpService,
         @InjectModel(Todo.modelName) private readonly _todoModel: ModelType<Todo>,
         private readonly _mapperService: MapperService,
     ) {

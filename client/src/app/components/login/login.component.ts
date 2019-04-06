@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
 
         const loginVm: LoginVm = new LoginVm(this.form.value);
         this._userClient.login(loginVm)
-            .pipe(catchError((err: ApiException) => throwError(err)))
             .subscribe((data: LoginResponseVm) => {
                 console.log(data);
                 this._router.navigate(['/todo']);

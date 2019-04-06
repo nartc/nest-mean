@@ -10,6 +10,7 @@ import {
     Post,
     Put,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
@@ -29,6 +30,10 @@ import { Todo } from './models/todo.model';
 import { TodoParams } from './models/view-models/todo-params.model';
 import { TodoVm } from './models/view-models/todo-vm.model';
 import { TodoService } from './todo.service';
+import { Roles } from '../shared/decorators/roles.decorator';
+import { UserRole } from '../user/models/user-role.enum';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../shared/guards/roles.guard';
 
 @Controller('todos')
 @ApiUseTags(Todo.modelName)
@@ -53,12 +58,12 @@ export class TodoController {
     }
 
     @Get()
-    // @Roles(UserRole.Admin, UserRole.User)
-    // @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRole.Admin, UserRole.User)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @ApiOkResponse({ type: TodoVm, isArray: true })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(Todo.modelName, 'GetAll'))
-    @ApiImplicitQuery({ name: 'level', enum: TodoLevel, required: false, isArray: true })
+    @ApiImplicitQuery({ name: 'level', enum: EnumToArray(TodoLevel), required: false, isArray: true })
     @ApiImplicitQuery({ name: 'isCompleted', required: false })
     async get(
         @Query('level') level?: TodoLevel,
@@ -136,4 +141,8 @@ export class TodoController {
             throw new InternalServerErrorException(e);
         }
     }
+}
+
+export function EnumToArray(enumVariable: any): string[] {
+    return Object.keys(enumVariable).map(k => enumVariable[k]);
 }
