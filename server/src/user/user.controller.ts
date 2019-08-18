@@ -41,7 +41,8 @@ export class UserController {
         }
 
         const newUser = await this._userService.register(vm);
-        return this._userService.map<UserVm>(newUser);
+        console.log(newUser);
+        return this._userService.map(newUser, User, UserVm);
     }
 
     @Post('login')

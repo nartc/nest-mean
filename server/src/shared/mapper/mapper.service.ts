@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import 'automapper-ts/dist/automapper';
+import {AutoMapper, Mapper, Configuration} from 'automapper-nartc';
+import { User } from '../../user/models/user.model';
+import { UserVm } from '../../user/models/view-models/user-vm.model';
+import { Todo } from '../../todo/models/todo.model';
+import { TodoVm } from '../../todo/models/view-models/todo-vm.model';
 
 @Injectable()
 export class MapperService {
-    mapper: AutoMapperJs.AutoMapper;
+    mapper: AutoMapper;
 
     constructor() {
-        this.mapper = automapper;
+        this.mapper = Mapper;
         this.initializeMapper();
     }
 
@@ -14,12 +18,9 @@ export class MapperService {
         this.mapper.initialize(MapperService.configure);
     }
 
-    private static configure(config: AutoMapperJs.IConfiguration): void {
-        config
-            .createMap('User', 'UserVm')
-            .forSourceMember('_id', opts => opts.ignored())
-            .forSourceMember('password', opts => opts.ignore());
-
-        config.createMap('Todo', 'TodoVm').forSourceMember('_id', opts => opts.ignore());
+    private static configure(config: Configuration): void {
+        config.createMap(User, UserVm)
+            .forMember("fullName", opts => opts.mapFrom(s => s.fullName));
+        config.createMap(Todo, TodoVm);
     }
 }

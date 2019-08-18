@@ -15,6 +15,7 @@ import { UserModule } from './user/user.module';
             uri: _configService.get(Configuration.MONGO_URI),
             retryDelay: 500,
             retryAttempts: 3,
+            useFindAndModify: false,
             useNewUrlParser: true,
             useCreateIndex: true,
         }),

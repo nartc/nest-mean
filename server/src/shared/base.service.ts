@@ -1,10 +1,10 @@
-import 'automapper-ts/dist/automapper';
 import { Types } from 'mongoose';
 import { InstanceType, ModelType, Typegoose } from 'typegoose';
+import { AutoMapper, Constructable } from 'automapper-nartc';
 
 export abstract class BaseService<T extends Typegoose> {
     protected _model: ModelType<T>;
-    protected _mapper: AutoMapperJs.AutoMapper;
+    protected _mapper: AutoMapper;
 
     private get modelName(): string {
         return this._model.modelName;
@@ -14,12 +14,20 @@ export abstract class BaseService<T extends Typegoose> {
         return `${this._model.modelName}Vm`;
     }
 
-    async map<K>(
-        object: Partial<InstanceType<T>> | Partial<InstanceType<T>>[],
-        sourceKey: string = this.modelName,
-        destinationKey: string = this.viewModelName,
+    async map<T, K>(
+        object: Partial<InstanceType<T>>,
+        source: Constructable<T>,
+        destination: Constructable<K>,
     ): Promise<K> {
-        return this._mapper.map(sourceKey, destinationKey, object);
+        return this._mapper.map<T, K>(object as T, source, destination);
+    }
+
+    async mapArray<T, K>(
+        object: Array<Partial<InstanceType<T>>>,
+        source: Constructable<T>,
+        destination: Constructable<K>
+    ): Promise<K[]> {
+        return this._mapper.mapArray<T, K>(object as T[], source, destination)
     }
 
     async findAll(filter = {}): Promise<InstanceType<T>[]> {
@@ -46,7 +54,7 @@ export abstract class BaseService<T extends Typegoose> {
         return this._model.findByIdAndUpdate(this.toObjectId(id), item, { new: true }).exec();
     }
 
-    async clearCollection(filter = {}): Promise<void> {
+    async clearCollection(filter = {}): Promise<{ ok?: number; n?: number; }> {
         return this._model.deleteMany(filter).exec();
     }
 

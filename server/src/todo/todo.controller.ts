@@ -51,7 +51,7 @@ export class TodoController {
     async create(@Body() params: TodoParams): Promise<TodoVm> {
         try {
             const newTodo = await this._todoService.createTodo(params);
-            return this._todoService.map<TodoVm>(newTodo);
+            return this._todoService.map(newTodo, Todo, TodoVm);
         } catch (e) {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -86,7 +86,7 @@ export class TodoController {
 
         try {
             const todos = await this._todoService.findAll(filter);
-            return this._todoService.map<TodoVm[]>(map(todos, todo => todo.toJSON()));
+            return this._todoService.mapArray(map(todos, todo => todo.toJSON()), Todo, TodoVm);
         } catch (e) {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -121,7 +121,7 @@ export class TodoController {
 
         try {
             const updated = await this._todoService.update(id, exist);
-            return this._todoService.map<TodoVm>(updated.toJSON());
+            return this._todoService.map(updated.toJSON(), Todo, TodoVm);
         } catch (e) {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -136,7 +136,7 @@ export class TodoController {
     async delete(@Param('id') id: string): Promise<TodoVm> {
         try {
             const deleted = await this._todoService.delete(id);
-            return this._todoService.map<TodoVm>(deleted.toJSON());
+            return this._todoService.map(deleted.toJSON(), Todo, TodoVm);
         } catch (e) {
             throw new InternalServerErrorException(e);
         }

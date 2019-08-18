@@ -3,8 +3,6 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 
-declare const module: any;
-
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     const hostDomain = AppModule.isDev ? `${AppModule.host}:${AppModule.port}` : AppModule.host;
@@ -30,11 +28,6 @@ async function bootstrap() {
             showRequestDuration: true,
         },
     });
-
-    if (module.hot) {
-        module.hot.accept();
-        module.hot.dispose(() => app.close());
-    }
 
     app.setGlobalPrefix('api');
     app.useGlobalFilters(new HttpExceptionFilter());
