@@ -29,7 +29,7 @@
     "bcryptjs": "2.4.3",
     "config": "3.2.2",
     "jsonwebtoken": "8.5.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.21",
     "mongoose": "5.7.5",
     "passport": "0.4.0",
     "passport-jwt": "4.0.0",
