@@ -28,7 +28,7 @@
     "automapper-nartc": "3.0.18",
     "bcryptjs": "2.4.3",
     "config": "3.2.2",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "lodash": "4.17.15",
     "mongoose": "5.7.5",
     "passport": "0.4.0",
